@@ -1,7 +1,7 @@
 .PHONY: test \
 	check-for-wallaroo \
 	start-kafka stop-kafka setup-topics reset\
-        start-app \
+	start-app \
 	start-generator \
 	tail-output \
 
@@ -18,21 +18,21 @@ check-for-wallaroo:
 	@python -c 'import wallaroo' 2>/dev/null || \
 	(echo "wallaroo.py not in python path"; exit 1)
 
-start-app:
+start-app: check-for-wallaroo
 	-rm /tmp/app-initializer.*
 	machida --application-module app \
-          --kafka_source_topic $(IN_TOPIC) \
-          --kafka_source_brokers 127.0.0.1:9092 \
-          --kafka_sink_topic $(OUT_TOPIC) \
+	  --kafka_source_topic $(IN_TOPIC) \
+	  --kafka_source_brokers 127.0.0.1:9092 \
+	  --kafka_sink_topic $(OUT_TOPIC) \
 	  --kafka_sink_brokers 127.0.0.1:9092 \
-          --kafka_sink_max_message_size 100000 \
+	  --kafka_sink_max_message_size 100000 \
 	  --kafka_sink_max_produce_buffer_ms 100 \
-          --metrics 127.0.0.1:5001 \
-          --control 127.0.0.1:12500 \
-          --data 127.0.0.1:12501 \
-          --external 127.0.0.1:5050 \
-          --cluster-initializer --ponythreads=1 \
-          --ponynoblock
+	  --metrics 127.0.0.1:5001 \
+	  --control 127.0.0.1:12500 \
+	  --data 127.0.0.1:12501 \
+	  --external 127.0.0.1:5050 \
+	  --cluster-initializer --ponythreads=1 \
+	  --ponynoblock
 
 start-generator:
 	./generator.py
@@ -40,7 +40,7 @@ start-generator:
 tail-output:
 	$(K_BIN)/kafka-console-consumer.sh \
 	  --bootstrap-server localhost:9092 \
-          --topic $(OUT_TOPIC)
+	  --topic $(OUT_TOPIC)
 
 $(K_BIN): kafka log
 
@@ -80,8 +80,8 @@ setup-topics: $(K_BIN)
 	-$(K_BIN)/kafka-topics.sh --create --zookeeper localhost:2181 \
 	  --partitions 1 --replication-factor 1\
 	  --config delete.retention.ms=1 \
-          --topic $(IN_TOPIC)
+	  --topic $(IN_TOPIC)
 	-$(K_BIN)/kafka-topics.sh --create --zookeeper localhost:2181 \
 	  --config delete.retention.ms=1 \
 	  --partitions 1 --replication-factor 1\
-          --topic $(OUT_TOPIC)
+	  --topic $(OUT_TOPIC)
