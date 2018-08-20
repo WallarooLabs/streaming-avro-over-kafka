@@ -27,12 +27,3 @@
 `make reset` - destroy kafka/zk state. WARNING! here be `rm -rf`s and `pkill`s
 
 
-## TODO:
-
- - [x] Serialize and deserialize Avro from strings, not files
- - [x] Timebox: stand up Kafka broker to avoid TCP framing
- - [x] Connect `generator.py` to Source (kafka|tcp)
- - [x] Decode info
- - [ ] Perform a state computation (aggregate readings by geohash?)
- - [x] Send results to Kafka
- - [ ] Short writeup of what's what
