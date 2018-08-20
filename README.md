@@ -19,11 +19,11 @@
    published by the Wallaroo app.
 
 4. `make start-generator` (TERMINAL 3)
-   Starts up Python script [generate.py](generate.py) which
+   Starts up Python script [generator.py](generator.py) which
    continuously sends random "sensor readings" to the input topic.
 
 
-`make test` - runs unit tests for avro (de)serializer  
+`make test` - runs unit tests for avro (de)serializer
 `make reset` - destroy kafka/zk state. WARNING! here be `rm -rf`s and `pkill`s
 
 
